@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { useFirebaseAuth } from '../../firebaseAuthContext'
 import styles from './styles';
+import SampleCard from '../../components/sampleCard'
 
 
 
@@ -10,7 +11,7 @@ export default function GoerHomeScreen() {
     console.log(user);
     return (
         <View>
-            <Text>Welcome {user.displayName}</Text>
+            <SampleCard barName="rowdies"></SampleCard>
         </View>
     )
 }
