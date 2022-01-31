@@ -11,7 +11,7 @@ export default function GoerHomeScreen() {
     console.log(user);
     return (
         <View>
-            <SampleCard barName="rowdies"></SampleCard>
+            <SampleCard barName="ROWDIES"></SampleCard>
         </View>
     )
 }

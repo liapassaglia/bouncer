@@ -48,11 +48,14 @@ const GoerTabsScreen = (user) => (
 function Navigator() {
   const user = useFirebaseAuth();
   return (
-    user == null ? (<AuthStackScreen/>)
-    :
-    (<GoerTabsScreen/>)
+  //   user == null ? (<AuthStackScreen/>)
+  //   :
+  //   (<GoerTabsScreen/>)
+  // )
+  <GoerTabsScreen/>
   )
-}
+  }
+
 
 export default function App({ navigation }) {
   return (
