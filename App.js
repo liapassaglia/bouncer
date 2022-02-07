@@ -1,5 +1,7 @@
 import 'react-native-gesture-handler';
 import * as React from 'react'
+import {View} from 'react-native'
+import { Icon } from 'react-native-elements'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -25,7 +27,33 @@ const AuthStackScreen = () => (
 
 const GoerTabs = createBottomTabNavigator();
 const GoerTabsScreen = (user) => (
-  <GoerTabs.Navigator>
+  <GoerTabs.Navigator
+  screenOptions={({ route }) => ({
+    headerShown: false,
+    tabBarIcon: ({ focused, color }) => {
+      let iconName;
+      if (route.name === 'Home') {
+        iconName = 'home'
+      } else if (route.name === 'Favorites') {
+        iconName = 'heart'
+      }
+      else if (route.name === 'Explore') {
+        iconName = 'search'
+      }
+      else if (route.name === 'Settings') {
+        iconName = 'user'
+      }
+      return <Icon name={iconName}
+      type='font-awesome'
+      color={color} />;
+    },
+    tabBarActiveTintColor: 'white',
+    tabBarInactiveTintColor: '#9CA4BE',
+    tabBarStyle: {
+      backgroundColor: '#000824',
+    }
+  })}
+  >
     <GoerTabs.Screen
       name="Home"
       component={GoerHomeScreen}

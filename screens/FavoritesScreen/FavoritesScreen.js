@@ -1,10 +1,17 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Image, Text, View } from 'react-native'
+import styles from './styles';
 
 export default function FavoritesScreen(props) {
     return (
-        <View>
-            <Text>FAVORITES</Text>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Image
+                        style={styles.logo}
+                        source={require('../../assets/bouncer-logo.png')}
+                    />
+            </View>
+            <Text style={styles.text}>Favorites</Text>
         </View>
     )
 }
