@@ -8,7 +8,6 @@ export default StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 25,
     },
     logo: {
         width: 80,
@@ -16,5 +15,14 @@ export default StyleSheet.create({
     },
     text: {
         color: '#ffffff'
+    },
+    searchbar: {
+        height: 40,
+        borderWidth: 1,
+        paddingLeft: 20,
+        margin: 5,
+        borderColor: '#9CA4BE',
+        backgroundColor: '#FFFFFF',
+        borderRadius: 15,
     }
 })

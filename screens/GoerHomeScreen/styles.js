@@ -8,7 +8,6 @@ export default StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 25,
     },
     logo: {
         width: 80,

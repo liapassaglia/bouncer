@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, Image, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { firebase } from '../../firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
@@ -39,7 +39,7 @@ export default function LoginScreen({navigation}) {
     }
 
     return (
-        
+        <SafeAreaView style={{flex:1}}>
         <View style={styles.container}>
             <Image
                 style={styles.backgroundImage}
@@ -83,5 +83,6 @@ export default function LoginScreen({navigation}) {
                 </View>
             </KeyboardAwareScrollView>
         </View>
+        </SafeAreaView>
     )
 }

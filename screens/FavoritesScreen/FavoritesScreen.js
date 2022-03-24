@@ -1,9 +1,10 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { SafeAreaView, Image, Text, View } from 'react-native'
 import styles from './styles';
 
 export default function FavoritesScreen(props) {
     return (
+        <SafeAreaView style={{flex:1}}>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image
@@ -13,5 +14,6 @@ export default function FavoritesScreen(props) {
             </View>
             <Text style={styles.text}>Favorites</Text>
         </View>
+        </SafeAreaView>
     )
 }

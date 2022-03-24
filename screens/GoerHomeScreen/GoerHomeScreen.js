@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Image } from 'react-native'
+import { SafeAreaView, Text, View, Image } from 'react-native'
 import { useFirebaseAuth } from '../../firebaseAuthContext'
 import styles from './styles';
 import Card from '../../components/Card'
@@ -10,6 +10,7 @@ export default function GoerHomeScreen() {
     const user = useFirebaseAuth();
     console.log(user);
     return (
+        <SafeAreaView style={{flex:1}}>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image
@@ -30,5 +31,6 @@ export default function GoerHomeScreen() {
                 imageUrl="https://lh3.googleusercontent.com/fNlfR27CeNWPi8gHTZduTj4dU-z-HjEyEZISe2vvoAwHe1BRpKekcxSh2MDbj5pH97QRarWlFKxndgRXCaqoXfS_kwVasFAapjMfOuZy=s340"
             ></Card>
         </View>
+        </SafeAreaView>
     )
 }
