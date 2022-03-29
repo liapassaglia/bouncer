@@ -14,6 +14,18 @@ export default StyleSheet.create({
         height: 80,
     },
     text: {
-        color: '#ffffff'
+        color: '#ffffff',
+        textAlign: 'left',
+        fontSize: 30,
+        fontWeight: '600',
+        marginBottom: 15,
+        marginLeft: 15
+    },
+
+    edit:{
+        color: "#9ca4be",
+        fontSize: 20,
+        textAlign: 'right',
+        marginRight: 20
     }
 })
