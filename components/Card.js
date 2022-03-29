@@ -45,6 +45,7 @@ const Card = (props) => {
     </View>
   )} 
   return (
+    
     <View style={styles.container}>
     <View>
       <View style={styles.imageContainer}>
