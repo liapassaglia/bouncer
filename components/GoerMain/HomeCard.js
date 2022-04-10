@@ -1,51 +1,27 @@
 import React from 'react'
 import { Text, View, Image , StyleSheet, Button, TouchableOpacity} from 'react-native'
-import { Icon } from 'react-native-elements'
-//import styles from '../screens/GoerHomeScreen/styles'
-//import styles from '../screens/GoerHomeScreen/styles'
-//import styles from '../screens/GoerHomeScreen/styles'
-import ReusableButton from './ReusableButton'
 
-const Card = (props) => {
-  if (props.numberInLine != 0){
-  return(
-    <View style={styles.container}>
-      <View>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri:props.imageUrl}}></Image>
-        </View>
-        <View style={styles.infoContainer}>
-          <View style={styles.waitTime}>
-            <Icon
-            name='user-plus'
-            type='font-awesome'
-            color='#9CA4BE'
-            />
-            <Text style={styles.info}>{props.numberInLine}</Text>
-          </View>
-          <View style={styles.waitTime}>
-            <Icon
-            name='clock-o'
-            type='font-awesome'
-            color='#9CA4BE'
-            />
-            <Text style={styles.info}> ~{props.waitTime} min</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}
-        adjustsFontSizeToFit={true}
-        numberOfLines={2}
-        >{props.venueName}</Text>
-      </View>
-        <TouchableOpacity style = {styles.button}>
-          <Text style= {styles.buttonText}>Enter Line</Text>
-        </TouchableOpacity>
-    </View>
-  )} 
+import {firebase} from '../../firebase'
+import { connect } from 'react-redux'
+
+const HomeCard = (props) => {
+  const leaveLine = () => {
+    firebase.firestore()
+    .collection("lines")
+    .doc(props.venueID)
+    .collection('lineUsers')
+    .doc(firebase.auth().currentUser.uid)
+    .delete()
+
+    firebase.firestore()
+    .collection("users")
+    .doc(firebase.auth().currentUser.uid)
+    .update({
+      line: firebase.firestore.FieldValue.delete()
+    })
+  }
+
   return (
-    
     <View style={styles.container}>
     <View>
       <View style={styles.imageContainer}>
@@ -60,14 +36,20 @@ const Card = (props) => {
       numberOfLines={2}
       >{props.venueName}</Text>
     </View>
-      <TouchableOpacity style = {styles.buttonNoLine} disabled={true} > 
-        <Text style= {styles.buttonNoLineText}>No Line</Text>
+      <TouchableOpacity style = {styles.buttonInLine} onPress={() => leaveLine()}> 
+        <Text style= {styles.buttonInLineText}>Leave Line</Text>
       </TouchableOpacity>
   </View>
   )
 }
 
-export default Card;
+const mapStateToProps = (store) => ({
+  currentUser: store.userState.currentUser,
+})
+
+// const mapDispatchProps = (dispatch) => bindActionCreators({Favorite,Unfavorite}, dispatch);
+
+export default connect(mapStateToProps,null)(HomeCard);
 
 const styles = StyleSheet.create({
   container: {
@@ -84,7 +66,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     width: 150,
-    height: 90,
+    height: 125,
     backgroundColor: 'white',
     margin: 10,
     borderRadius: 5,
@@ -141,18 +123,18 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center"
   },
-  buttonNoLine: {
+  buttonInLine: {
     position: "absolute",
     right: 10,
     bottom: 10,
     width: 150,
     borderWidth: 3,
-    borderColor: '#9CA4BE',
+    borderColor: '#FF5151',
     borderRadius: 5,
     padding: 7,
   },
-  buttonNoLineText: {
-    color: '#9CA4BE',
+  buttonInLineText: {
+    color: '#FF5151',
     fontSize: 18,
     fontWeight: "500",
     textAlign: "center"
