@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements'
+import {connect} from 'react-redux'
 
 
 const user = {
@@ -9,8 +10,9 @@ const user = {
     password: '12345',
 }
 
-export class SettingsScreen extends Component {
-    render(){
+function SettingsScreen(props) {
+    const {currentUser} = props;
+
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={styles.container}>
@@ -27,7 +29,7 @@ export class SettingsScreen extends Component {
                 />
             </View>
             <View style={styles.infoView}>
-                <Text style={styles.name}>{user.name}</Text>
+                <Text style={styles.name}>{currentUser.fullName}</Text>
             </View>
             <View style={styles.infoView}>
                 <Text style={styles.email}>{user.email}</Text>
@@ -73,8 +75,12 @@ export class SettingsScreen extends Component {
             </View>
         </SafeAreaView>
     )}
-}
-export default SettingsScreen
+
+const mapStateToProps = (store) => ({
+   currentUser: store.userState.currentUser,
+})
+
+export default connect(mapStateToProps,null)(SettingsScreen);
 
 const styles =  StyleSheet.create({
     container: {
