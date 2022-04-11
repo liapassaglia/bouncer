@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 function ExploreScreen(props) { 
         const {lines} = props;
         const [search, setSearch] = useState('');
-        const [filteredData, setFilteredData] = useState();
+        const [filteredData, setFilteredData] = useState(props.lines);
 
         const handleSearch = (text) => {
             const formattedSearch = text.toUpperCase();
@@ -38,7 +38,7 @@ function ExploreScreen(props) {
                     placeholder="Search venue lines"
                 />
                 <FlatList
-                        data={lines}
+                        data={filteredData}
                         renderItem={({item})=>{
                             return(
                                 <Card 

@@ -11,7 +11,7 @@ import {fetchUser, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines} from 
 import GoerHomeScreen from './GoerMain/GoerHomeScreen'
 import ExploreScreen from './GoerMain/ExploreScreen'
 import FavoritesScreen from './GoerMain/FavoritesScreen'
-import {SettingsScreen} from './GoerMain/SettingsScreen'
+import SettingsScreen from './GoerMain/SettingsScreen'
 const Tab = createBottomTabNavigator();
 
 export class GoerMain extends Component {
