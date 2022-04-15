@@ -2,17 +2,18 @@ import React, {Component} from 'react'
 import { SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements'
 import {connect} from 'react-redux'
+import {getAuth} from 'firebase/auth';
 
-
-const user = {
-    name: 'Nicolas Adams',
-    email: 'nicolasadams@gmail.com',
-    password: '12345',
-}
 
 function SettingsScreen(props) {
     const {currentUser} = props;
 
+
+    const onLogOutPress = () => {
+        const auth = getAuth();
+        auth
+        .signOut()
+    }
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={styles.container}>
@@ -32,7 +33,7 @@ function SettingsScreen(props) {
                 <Text style={styles.name}>{currentUser.fullName}</Text>
             </View>
             <View style={styles.infoView}>
-                <Text style={styles.email}>{user.email}</Text>
+                <Text style={styles.email}>{currentUser.email}</Text>
             </View>
             <View style={styles.buttonsView}>
                 <TouchableOpacity style = {styles.button}> 
@@ -59,7 +60,8 @@ function SettingsScreen(props) {
                     />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.button}> 
+                <TouchableOpacity style = {styles.button}
+                onPress={() => onLogOutPress()}>
                     <Icon name='logout'
                     type='material'
                     color='white'/>
@@ -74,10 +76,10 @@ function SettingsScreen(props) {
             </View>
             </View>
         </SafeAreaView>
-    )}
-
+    )
+}
 const mapStateToProps = (store) => ({
-   currentUser: store.userState.currentUser,
+    currentUser: store.userState.currentUser,
 })
 
 export default connect(mapStateToProps,null)(SettingsScreen);

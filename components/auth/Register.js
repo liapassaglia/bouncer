@@ -29,8 +29,9 @@ export class Register extends Component {
             };
             console.log(userCredential);
             // Firestore
-            const usersRef = firebase.firestore().collection('users')
-            usersRef.doc(uid)
+            firebase.firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
             .set(data)
             .then(() => {
                 const user = firebase.auth().currentUser;
