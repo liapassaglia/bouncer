@@ -19,16 +19,18 @@ function FavoritesScreen(props) {
                 <Text style={styles.text}>FAVORITES</Text>      
                 <FlatList
                         data={favorites}
-                        renderItem={({item})=>(
-                            <Card 
-                                venueID={item.venueID}
-                                venueName={item.venueName}
-                                venueOpen={item.open}
-                                numberInLine={item.size}
-                                imageUrl={item.imageURL}
-                                favorite={true}
-                            ></Card>
-                        )}
+                        renderItem={({item})=>{
+                            return (
+                                <Card 
+                                    venueID={item.venueID}
+                                    venueName={item.venueName}
+                                    venueOpen={item.open}
+                                    numberInLine={item.size}
+                                    imageUrl={item.imageURL}
+                                    favorite={true}
+                                ></Card>
+                            )}
+                        }
                         keyExtractor={item=>item.venueID}
                 />
             </View>

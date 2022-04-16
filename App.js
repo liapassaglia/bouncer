@@ -15,8 +15,9 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 
 import Login from './components/auth/Login'
-import Register from './components/auth/Register'
-import GoerMain from './components/GoerMain'
+import UserRegister from './components/auth/UserRegister'
+import VenueRegister from './components/auth/VenueRegister';
+import AppMain from './components/AppMain'
 const Stack = createStackNavigator();
 
 export class App extends Component {
@@ -59,7 +60,8 @@ export class App extends Component {
           }}
           >
             <Stack.Screen name="Login" component={Login}/>
-            <Stack.Screen name="Register" component={Register}/>
+            <Stack.Screen name="UserRegister" component={UserRegister}/>
+            <Stack.Screen name="VenueRegister" component={VenueRegister}/>
           </Stack.Navigator>
         </NavigationContainer>
       )
@@ -67,7 +69,7 @@ export class App extends Component {
     return (
       <Provider store={store}>
         <NavigationContainer>
-          <GoerMain/>
+          <AppMain/>
         </NavigationContainer>
       </Provider>
     )

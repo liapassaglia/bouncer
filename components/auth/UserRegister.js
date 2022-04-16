@@ -3,7 +3,7 @@ import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'reac
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { firebase } from '../../firebase';
 
-export class Register extends Component {
+export class UserRegister extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,6 @@ export class Register extends Component {
         createUserWithEmailAndPassword(auth,email,password)
         .then((userCredential)=>{
             // Signed In
-            const user = userCredential.user;
             const data = {
                 uid: userCredential.user.uid,
                 email: email,
@@ -55,6 +54,7 @@ export class Register extends Component {
                     style={styles.logo}
                     source={require('../../assets/bouncer-logo.png')}
                 />
+                <Text style={styles.text}>USER SIGN UP</Text>  
                 <TextInput
                     style={styles.input}
                     placeholder='Full Name'
@@ -105,7 +105,7 @@ export class Register extends Component {
     )}
 }
 
-export default Register
+export default UserRegister
 
 const styles = StyleSheet.create({
     container: {
@@ -116,6 +116,14 @@ const styles = StyleSheet.create({
     },
     title: {
 
+    },
+    text: {
+        color: '#ffffff',
+        textAlign: 'left',
+        fontSize: 30,
+        fontWeight: '600',
+        marginBottom: 15,
+        marginLeft: 15
     },
     logo: {
         flex: 1,

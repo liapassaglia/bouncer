@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { SafeAreaView, Image, ImageBackground, Text, TextInput, TouchableOpacity, View, StyleSheet} from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore"; 
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const onFooterLinkPress = () => {
-        navigation.navigate('Register')
+        navigation.navigate('UserRegister')
     }
 
     const onLoginPress = () => {
@@ -66,7 +65,9 @@ export default function LoginScreen({navigation}) {
                     <Text style={styles.buttonTitle}>Log in</Text>
                 </TouchableOpacity>
                 <View style={styles.footerView}>
-                    <Text style={styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
+                    <Text style={styles.footerText}>Don't have an account?</Text>
+                    <Text onPress={onFooterLinkPress} style={styles.footerLink}>User Sign Up</Text>
+                    <Text onPress={() => navigation.navigate('VenueRegister')} style={styles.footerLink}>Venue Sign Up</Text>
                 </View>
             </View>
         </View>
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
         height: 300,
         width: 300,
         alignSelf: "center",
-        margin: 30
+        margin: 20
     },
     text: {
         fontSize: 18,
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
     footerLink: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 16
+        fontSize: 16,
+        margin: 4,
     }
 })

@@ -1,4 +1,4 @@
-import {USER_STATE_CHANGE,  USER_LINE_STATE_CHANGE, USER_LINE_INFO_STATE_CHANGE, USER_FAVORITES_STATE_CHANGE, USER_VENUES_STATE_CHANGE, CLEAR_DATA} from '../constants'
+import {USER_STATE_CHANGE, VENUE_STATE_CHANGE, USER_LINE_STATE_CHANGE, USER_LINE_INFO_STATE_CHANGE, USER_FAVORITES_STATE_CHANGE, USER_VENUES_STATE_CHANGE, CLEAR_DATA} from '../constants'
 
 const initialState = {
     currentUser: null,
@@ -6,6 +6,7 @@ const initialState = {
     lines: [],
     favorites: [],
     venues: [],
+    currentVenue: null,
 }
 
 export const user = (state = initialState, action) => {
@@ -14,6 +15,11 @@ export const user = (state = initialState, action) => {
             return {
                 ...state,
                 currentUser: action.currentUser
+            }
+        case VENUE_STATE_CHANGE:
+            return {
+                ...state,
+                currentVenue: action.currentVenue
             }
         case USER_LINE_STATE_CHANGE:
             return {

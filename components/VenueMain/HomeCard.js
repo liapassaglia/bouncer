@@ -1,41 +1,24 @@
 import React from 'react'
-import { Text, View, Image , StyleSheet, Button, TouchableOpacity, Alert} from 'react-native'
+import { Text, View, Image , StyleSheet, Button, TouchableOpacity} from 'react-native'
 
 import {firebase} from '../../firebase'
 import { connect } from 'react-redux'
 
 const HomeCard = (props) => {
+  const {currentVenue} = props;
 
-  const leave = () => {
+  const closeLine = () => {
     firebase.firestore()
-    .collection("lines")
-    .doc(props.venueID)
-    .collection('lineUsers')
-    .doc(firebase.auth().currentUser.uid)
-    .delete()
+        .collection("lines")
+        .doc(props.venueID)
+        .delete()
 
-    firebase.firestore()
-    .collection("users")
-    .doc(firebase.auth().currentUser.uid)
-    .update({
-      line: firebase.firestore.FieldValue.delete(),
-      letIn: firebase.firestore.FieldValue.delete()
-    })
-  }
-
-  const leaveLine = () => {
-    Alert.alert(
-      "Leave Line",
-      "Are you sure you want to leave your spot in line?",
-      [
-        {
-              text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-        },
-        { text: "OK", onPress: () => leave() }
-      ]
-    );
+        firebase.firestore()
+        .collection("venues")
+        .doc(props.venueID)
+        .update({
+            lineOpen: false,
+        })
   }
 
   return (
@@ -53,15 +36,15 @@ const HomeCard = (props) => {
       numberOfLines={2}
       >{props.venueName}</Text>
     </View>
-      <TouchableOpacity style = {styles.buttonInLine} onPress={() => leaveLine()}> 
-        <Text style= {styles.buttonInLineText}>Leave Line</Text>
+      <TouchableOpacity style = {styles.buttonInLine} onPress={() => closeLine()}> 
+        <Text style= {styles.buttonInLineText}>Close Line</Text>
       </TouchableOpacity>
   </View>
   )
 }
 
 const mapStateToProps = (store) => ({
-  currentUser: store.userState.currentUser,
+  currentVenue: store.userState.currentVenueUser,
 })
 
 // const mapDispatchProps = (dispatch) => bindActionCreators({Favorite,Unfavorite}, dispatch);

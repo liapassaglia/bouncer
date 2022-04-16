@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { FlatList, Image, TextInput, View, SafeAreaView, StyleSheet } from 'react-native'
 import Card from './Card'
-import { connect } from 'react-redux'
+import { connect, useSelector} from 'react-redux'
 
 function ExploreScreen(props) { 
         const {lines} = props;
@@ -17,7 +17,7 @@ function ExploreScreen(props) {
             }
             else {
                 setSearch('');
-                setFilteredData(props.lines);
+                setFilteredData(lines);
             }
         };
 
@@ -38,7 +38,7 @@ function ExploreScreen(props) {
                     placeholder="Search venue lines"
                 />
                 <FlatList
-                        data={filteredData}
+                        data={lines}
                         renderItem={({item})=>{
                             return(
                                 <Card 
@@ -51,7 +51,7 @@ function ExploreScreen(props) {
                                 ></Card>
                             )
                         }}
-                        keyExtractor={item=>item.venueName}
+                        keyExtractor={item=>item.venueID}
                 />
             </View>
             </SafeAreaView>

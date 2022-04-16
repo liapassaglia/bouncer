@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, Image , StyleSheet, Button, TouchableOpacity} from 'react-native'
+import { Text, View, Image , StyleSheet, Button, TouchableOpacity, Alert} from 'react-native'
 import { Icon } from 'react-native-elements'
 
-
+import {fetchLines} from '../../redux/action/index'
 import {firebase} from '../../firebase';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 
 function Card(props) {
+  const {currentUser} = props;
     const [favorite, setFavorite] = useState(props.favorite)
     const [color, setColor] = useState(props.favorite ? '#FF5151' : '#9CA4BE')
 
@@ -19,6 +20,7 @@ function Card(props) {
             .collection("userFollowing")
             .doc(props.venueID)
             .set({})
+        fetchLines()
     }
     const onUnfollow = () => {
         firebase.firestore()
@@ -30,6 +32,16 @@ function Card(props) {
     }
 
     const joinLine = () => {
+      if (currentUser.line || currentUser.letIn){
+        Alert.alert(
+          "Already In Line",
+          "You can only wait in one line, go to Home to view your status",
+          [
+            { text: "OK" }
+          ]
+        );
+        return
+      }
       firebase.firestore()
       .collection("lines")
       .doc(props.venueID)
@@ -44,6 +56,7 @@ function Card(props) {
       .doc(firebase.auth().currentUser.uid)
       .update({
         line: props.venueID,
+        letIn: firebase.firestore.FieldValue.delete()
       })
     }
 
@@ -135,9 +148,9 @@ const mapStateToProps = (store) => ({
     favorites: store.userState.favorites
 })
 
-// const mapDispatchProps = (dispatch) => bindActionCreators({Favorite,Unfavorite}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchLines},dispatch)
 
-export default connect(mapStateToProps,null)(Card);
+export default connect(mapStateToProps,mapDispatchToProps )(Card);
 
 const styles = StyleSheet.create({
   container: {

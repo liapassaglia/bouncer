@@ -1,24 +1,24 @@
 import React, {Component} from 'react'
 import { SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements'
-import {connect} from 'react-redux'
 import {getAuth, signOut} from 'firebase/auth';
 
+import { connect } from 'react-redux'
 import {clearData} from '../../redux/action/index'
 import { bindActionCreators } from 'redux'
 
-function SettingsScreen(props) {
-    const {currentUser} = props;
 
+function VenueSettingsScreen(props) {
+    const {currentVenue} = props;
 
     const onLogOutPress = () => {
         props.clearData();
         const auth = getAuth();
         signOut(auth).then(() => {
             // Sign-out successful.
-          }).catch((error) => {
+        }).catch((error) => {
             // An error happened.
-          });
+        });
     }
         return (
             <SafeAreaView style={{flex:1}}>
@@ -29,6 +29,16 @@ function SettingsScreen(props) {
                     source={require('../../assets/bouncer-logo.png')}
                 />
             </View>
+            <View style={{flexDirection:'row', justifyContent:'flex-start'}}>
+                <TouchableOpacity style={{marginLeft: 20}} onPress={() => props.navigation.navigate('Home')}>
+                    <Icon
+                        name='arrow-left'
+                        type='font-awesome'
+                        color='#9CA4BE'
+                        size="30px"
+                    />
+                </TouchableOpacity>
+            </View>
             <View style={styles.profileImageView}>
                 <Image
                     style={styles.profileImage}
@@ -36,10 +46,10 @@ function SettingsScreen(props) {
                 />
             </View>
             <View style={styles.infoView}>
-                <Text style={styles.name}>{currentUser.fullName}</Text>
+                <Text style={styles.name}>{currentVenue.venueName}</Text>
             </View>
             <View style={styles.infoView}>
-                <Text style={styles.email}>{currentUser.email}</Text>
+                <Text style={styles.email}>{currentVenue.email}</Text>
             </View>
             <View style={styles.buttonsView}>
                 <TouchableOpacity style = {styles.button}> 
@@ -85,12 +95,12 @@ function SettingsScreen(props) {
     )
 }
 const mapStateToProps = (store) => ({
-    currentUser: store.userState.currentUser,
+    currentVenue: store.userState.currentVenue,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({clearData},dispatch)
 
-export default connect(mapStateToProps,mapDispatchToProps)(SettingsScreen);
+export default connect(mapStateToProps,mapDispatchToProps)(VenueSettingsScreen);
 
 const styles =  StyleSheet.create({
     container: {
