@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import { SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
+import React, {Component, useState} from 'react'
+import {Modal,SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements'
 import {getAuth, signOut} from 'firebase/auth';
 
@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux'
 
 function VenueSettingsScreen(props) {
     const {currentVenue} = props;
+    const [modalVisible, setModalVisible] = useState(false);
 
     const onLogOutPress = () => {
         props.clearData();
@@ -45,6 +46,27 @@ function VenueSettingsScreen(props) {
                     source={require('../../assets/profile.png')}
                 />
             </View>
+            <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.modalButtonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
             <View style={styles.infoView}>
                 <Text style={styles.name}>{currentVenue.venueName}</Text>
             </View>
@@ -52,7 +74,10 @@ function VenueSettingsScreen(props) {
                 <Text style={styles.email}>{currentVenue.email}</Text>
             </View>
             <View style={styles.buttonsView}>
-                <TouchableOpacity style = {styles.button}> 
+                <TouchableOpacity 
+                    style = {styles.button}
+                    onPress={() => setModalVisible(true)}
+                > 
                     <Icon name='user'
                     type='font-awesome'
                     color='white'/>
@@ -168,4 +193,48 @@ const styles =  StyleSheet.create({
         marginLeft: 15,
         marginTop: 3
     },
+
+
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      modalButton: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+      },
+      modalButtonOpen: {
+        backgroundColor: "#F194FF",
+      },
+      modalButtonClose: {
+        backgroundColor: "#2196F3",
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      }
 })

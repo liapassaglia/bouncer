@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import {clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines} from '../redux/action/index'
+import { clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines } from '../redux/action/index'
 
 import GoerHomeScreen from './GoerMain/GoerHomeScreen'
 import ExploreScreen from './GoerMain/ExploreScreen'
@@ -20,14 +20,12 @@ const Stack = createStackNavigator();
 
 export class AppMain extends Component {
     componentDidMount(){
-        this.props.clearData();
         this.props.fetchUser();
         this.props.fetchVenue();
         this.props.fetchFavorites();
         this.props.fetchVenues();
         this.props.fetchLineInfo();
         this.props.fetchLines();
-        console.log(this.props.currentUser)
     }
 
     // useEffect(){

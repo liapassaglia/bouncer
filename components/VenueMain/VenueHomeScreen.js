@@ -54,16 +54,13 @@ function VenueHomeScreen(props)  {
         .doc(firebase.auth().currentUser.uid)
         .collection('lineUsers')
         .orderBy("time","asc")
-        .onSnapshot(snapshot => {
-            let i = 0;
-            // for each user
-            snapshot.docs.forEach(doc=> {
-                if (i >= number){
-                    return
-                }
+        .limit(1)
+        .get()
+        .then(snapshot => {
+            let id = snapshot.docs[0].id
                 firebase.firestore()
                 .collection('users')
-                .doc(doc.id)
+                .doc(id)
                 .update({
                     letIn: true,
                 })
@@ -71,10 +68,8 @@ function VenueHomeScreen(props)  {
                 .collection('lines')
                 .doc(currentVenue.venueID)
                 .collection('lineUsers')
-                .doc(doc.id)
+                .doc(id)
                 .delete()
-                i++
-            })
         })
         onChangeNumber(null)
     }

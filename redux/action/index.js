@@ -9,6 +9,7 @@ export function fetchUser() {
         .doc(firebase.auth().currentUser.uid)
         .onSnapshot((snapshot,error) => {
             if(snapshot.exists){
+                console.log(snapshot.data())
                 dispatch({type: USER_STATE_CHANGE, currentUser: snapshot.data()})
             } else {
                 console.log('does not exist')
@@ -24,6 +25,7 @@ export function fetchVenue() {
         .doc(firebase.auth().currentUser.uid)
         .onSnapshot((snapshot,error) => {
             if(snapshot.exists){
+                console.log(snapshot.data())
                 dispatch({type: VENUE_STATE_CHANGE, currentVenue: snapshot.data()})
             } else {
                 console.log('does not exist')
@@ -129,7 +131,6 @@ export function fetchLines(){
         .doc(firebase.auth().currentUser.uid)
         .collection('userFollowing')
         .onSnapshot((snapshot) => {
-                console.log('test')
                 favorites = [];
                 // favoritesID = all venues user is following
                 favorites = snapshot.docs.map(doc => {
@@ -140,7 +141,6 @@ export function fetchLines(){
                     }
                     return;
                 })
-                console.log(favorites)
                 lines.forEach(line => {
                     line.favorite = false;
                 })
