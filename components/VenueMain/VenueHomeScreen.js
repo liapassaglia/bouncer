@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements'
 
 import {firebase} from '../../firebase';
 import { connect } from 'react-redux'
+import { AuthErrorCodes } from 'firebase/auth';
 
 function VenueHomeScreen(props)  {
     const {currentVenue, lines} = props;
@@ -111,11 +112,10 @@ function VenueHomeScreen(props)  {
                     >
                     <Text style={styles.text}>PEOPLE IN {"\n"}LINE:</Text>
                     <Text style={styles.spot}>{lineInfo.size}</Text>
-                    <Text style={styles.lineSize}>LET IN</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <TextInput style={styles.inputNumber} onChangeText={(value) => onChangeNumber(value)} value={number} placeholder="Number to let in..." keyboardType="numeric"/>
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                         <TouchableOpacity style = {styles.enterButton} onPress={() => letInLine()}> 
-                                <Text style= {styles.buttonText}>Enter</Text>
+                        
+                                <Text style= {styles.buttonText}>LET IN</Text>
                         </TouchableOpacity>
                     </View>
                     </ImageBackground>
@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 7,
         height: 40,
-        marginTop: 15
-      },
+        marginTop: 15,
+        justifyContent: 'center'
+      }
 })

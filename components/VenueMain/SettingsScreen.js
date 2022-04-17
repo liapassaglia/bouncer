@@ -85,7 +85,7 @@ function VenueSettingsScreen(props) {
                 style={[styles.modalButton, styles.modalButtonClose]}
                 onPress={() => editName()}
                 >
-                <Text style={styles.textStyle}>Exit</Text>
+                <Text style={styles.textStyle}>Done</Text>
                 </TouchableOpacity>
             </View>
             </View>
@@ -233,7 +233,8 @@ const styles =  StyleSheet.create({
       modalButton: {
         borderRadius: 20,
         padding: 10,
-        elevation: 2
+        elevation: 2,
+        marginTop: 10
       },
       modalButtonOpen: {
         backgroundColor: "#F194FF",

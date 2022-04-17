@@ -2,6 +2,7 @@ import React, { useState, Component } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { firebase } from '../../firebase';
+import {KeyboardAvoidingView} from 'react-native';
 
 export class VenueRegister extends Component {
     constructor(props) {
@@ -83,6 +84,8 @@ export class VenueRegister extends Component {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+
+                <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                 <TextInput
                     style={styles.input}
                     placeholderTextColor="#aaaaaa"
@@ -92,6 +95,8 @@ export class VenueRegister extends Component {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+                </KeyboardAvoidingView>
+
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => this.onSignUp()}>
