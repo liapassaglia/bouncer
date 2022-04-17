@@ -1,12 +1,14 @@
 import React, {Component, useState} from 'react'
-import {Modal,SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
+import {Modal,SafeAreaView, Image, Text, TextInput, View, TouchableOpacity, StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements'
 import {getAuth, signOut} from 'firebase/auth';
 
 import { connect } from 'react-redux'
 import {clearData} from '../../redux/action/index'
 import { bindActionCreators } from 'redux'
-
+import {UserRegister} from '../auth/UserRegister'
+import { firebase } from '../../firebase';
+  
 
 function VenueSettingsScreen(props) {
     const {currentVenue} = props;
@@ -22,6 +24,7 @@ function VenueSettingsScreen(props) {
         });
     }
         return (
+
             <SafeAreaView style={{flex:1}}>
             <View style={styles.container}>
             <View style={styles.header}>
@@ -57,12 +60,20 @@ function VenueSettingsScreen(props) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+          <TextInput
+                    style={styles.input}
+                    placeholder='Venue Name'
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(VenueName) => {currentVenue.venueName}}
+                    value={currentVenue.venueName}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                />
             <TouchableOpacity
               style={[styles.modalButton, styles.modalButtonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Exit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -206,7 +217,7 @@ const styles =  StyleSheet.create({
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        padding: 130,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
