@@ -1,14 +1,20 @@
-import React, {Component} from 'react'
-import { SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
+import React, {Component, useState} from 'react'
+import {Modal, TextInput, SafeAreaView, Image, Text, View, TouchableOpacity, StyleSheet} from 'react-native'
 import { Icon } from 'react-native-elements'
 import {connect} from 'react-redux'
 import {getAuth, signOut} from 'firebase/auth';
 
 import {clearData} from '../../redux/action/index'
 import { bindActionCreators } from 'redux'
+import {UserRegister} from '../auth/UserRegister'
 
 function SettingsScreen(props) {
     const {currentUser} = props;
+    const fullName = UserRegister.fullName;
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [newName, setNewName] = useState(fullName);
 
 
     const onLogOutPress = () => {
@@ -42,7 +48,9 @@ function SettingsScreen(props) {
                 <Text style={styles.email}>{currentUser.email}</Text>
             </View>
             <View style={styles.buttonsView}>
-                <TouchableOpacity style = {styles.button}> 
+            <TouchableOpacity 
+                    style = {styles.button}
+                    onPress={() => setModalVisible(true)}>                     
                     <Icon name='user'
                     type='font-awesome'
                     color='white'/>
@@ -53,6 +61,35 @@ function SettingsScreen(props) {
                     color='white'
                     />
                     </View>
+                    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <TextInput
+                    style={styles.input}
+                    placeholder='Full Name'
+                    placeholderTextColor="#aaaaaa"
+                    onChangeText={(newName) => setNewName(newName)}
+                    value={newName}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                />            
+            <TouchableOpacity
+              style={[styles.modalButton, styles.modalButtonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.button}> 
                     <Icon name='lock'
@@ -158,4 +195,48 @@ const styles =  StyleSheet.create({
         marginLeft: 15,
         marginTop: 3
     },
+
+    //modal stuff
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 30
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 40,
+        padding: 110,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      modalButton: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginTop: 10
+      },
+      modalButtonOpen: {
+        backgroundColor: "#F194FF",
+      },
+      modalButtonClose: {
+        backgroundColor: "#2196F3",
+      },
+      textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+      }
 })

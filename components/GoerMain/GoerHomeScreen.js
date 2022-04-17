@@ -38,6 +38,7 @@ function GoerHomeScreen(props)  {
     const onAccept = () => {
 
     }
+    
     if (currentUser.letIn){
         return (
             <SafeAreaView style={{flex:1}}>
