@@ -4,6 +4,8 @@ import { Icon } from 'react-native-elements'
 import {connect} from 'react-redux'
 import {getAuth, signOut} from 'firebase/auth';
 
+import {firebase} from '../../firebase';
+
 import {clearData} from '../../redux/action/index'
 import { bindActionCreators } from 'redux'
 import {UserRegister} from '../auth/UserRegister'
@@ -16,6 +18,16 @@ function SettingsScreen(props) {
 
     const [newName, setNewName] = useState(fullName);
 
+
+    const editName = () => {
+        firebase.firestore()
+        .collection("users")
+        .doc(currentUser.uid)
+        .update({
+            fullName: newName,
+        })
+        setModalVisible(!modalVisible)
+    }
 
     const onLogOutPress = () => {
         props.clearData();
@@ -62,34 +74,34 @@ function SettingsScreen(props) {
                     />
                     </View>
                     <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-          <TextInput
-                    style={styles.input}
-                    placeholder='Full Name'
-                    placeholderTextColor="#aaaaaa"
-                    onChangeText={(newName) => setNewName(newName)}
-                    value={newName}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                />            
-            <TouchableOpacity
-              style={[styles.modalButton, styles.modalButtonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Done</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                        Alert.alert("Modal has been closed.");
+                        setModalVisible(!modalVisible);
+                        }}
+                    >
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                    <TextInput
+                                style={styles.input}
+                                placeholder='Full Name'
+                                placeholderTextColor="#aaaaaa"
+                                onChangeText={(newName) => setNewName(newName)}
+                                value={newName}
+                                underlineColorAndroid="transparent"
+                                autoCapitalize="none"
+                            />            
+                        <TouchableOpacity
+                        style={[styles.modalButton, styles.modalButtonClose]}
+                        onPress={() => editName()}
+                        >
+                        <Text style={styles.textStyle}>Done</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                </Modal>
                 </TouchableOpacity>
                 {/* <TouchableOpacity style = {styles.button}> 
                     <Icon name='lock'

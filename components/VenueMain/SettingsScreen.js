@@ -6,13 +6,25 @@ import {getAuth, signOut} from 'firebase/auth';
 import { connect } from 'react-redux'
 import {clearData} from '../../redux/action/index'
 import { bindActionCreators } from 'redux'
-import {UserRegister} from '../auth/UserRegister'
+import {VenueRegister} from '../auth/VenueRegister'
 import { firebase } from '../../firebase';
   
 
 function VenueSettingsScreen(props) {
     const {currentVenue} = props;
     const [modalVisible, setModalVisible] = useState(false);
+    const venueName = VenueRegister.venueName;
+    const [newName, setNewName] = useState(venueName);
+
+    const editName = () => {
+        firebase.firestore()
+        .collection("venues")
+        .doc(currentVenue.venueID)
+        .update({
+            venueName: newName,
+        })
+        setModalVisible(!modalVisible)
+    }
 
     const onLogOutPress = () => {
         props.clearData();
@@ -50,34 +62,34 @@ function VenueSettingsScreen(props) {
                 />
             </View>
             <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-          <TextInput
-                    style={styles.input}
-                    placeholder='Venue Name'
-                    placeholderTextColor="#aaaaaa"
-                    onChangeText={(VenueName) => {currentVenue.venueName}}
-                    value={currentVenue.venueName}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                />
-            <TouchableOpacity
-              style={[styles.modalButton, styles.modalButtonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Exit</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+            }}
+        >
+            <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <TextInput
+                        style={styles.input}
+                        placeholder='Venue Name'
+                        placeholderTextColor="#aaaaaa"
+                        onChangeText={(newName) => setNewName(newName)}
+                        value={newName}
+                        underlineColorAndroid="transparent"
+                        autoCapitalize="none"
+                    />
+                <TouchableOpacity
+                style={[styles.modalButton, styles.modalButtonClose]}
+                onPress={() => editName()}
+                >
+                <Text style={styles.textStyle}>Exit</Text>
+                </TouchableOpacity>
+            </View>
+            </View>
+        </Modal>
             <View style={styles.infoView}>
                 <Text style={styles.name}>{currentVenue.venueName}</Text>
             </View>
@@ -93,18 +105,6 @@ function VenueSettingsScreen(props) {
                     type='font-awesome'
                     color='white'/>
                     <Text style= {styles.buttonText}>Edit Name</Text>
-                    <View style={{position: 'absolute',right: 10,top:7.5}}>
-                    <Icon name='angle-right'
-                    type='font-awesome'
-                    color='white'
-                    />
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style = {styles.button}> 
-                    <Icon name='lock'
-                    type='font-awesome'
-                    color='white'/>
-                    <Text style= {styles.buttonText}>Edit Password</Text>
                     <View style={{position: 'absolute',right: 10,top:7.5}}>
                     <Icon name='angle-right'
                     type='font-awesome'
@@ -131,6 +131,7 @@ function VenueSettingsScreen(props) {
     )
 }
 const mapStateToProps = (store) => ({
+    currentUser: store.userState.currentUser,
     currentVenue: store.userState.currentVenue,
 })
 

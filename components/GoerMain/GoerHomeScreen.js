@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, Text, View, Image, ImageBackground, StyleSheet, TouchableOpacity, Alert, TurboModuleRegistry } from 'react-native'
 import HomeCard from './HomeCard'
-
+import { Icon } from 'react-native-elements'
 import {firebase} from '../../firebase';
 import { connect } from 'react-redux'
 
@@ -46,9 +46,20 @@ function GoerHomeScreen(props)  {
                 onPress: () => console.log("Accept Pressed"),
                 style: "accept"
             },
-            {text: "Accept", onPress: () => accepted.setAccepted = useState(true) }
+            {text: "Accept", onPress: () => setAccepted(true) }
         ]
         );
+    }
+
+    const closeEntry = () => {
+        firebase.firestore()
+        .collection('users')
+        .doc(currentUser.uid)
+        .update({
+            line: firebase.firestore.FieldValue.delete(),
+            letIn: firebase.firestore.FieldValue.delete()
+        })
+        setAccepted(false)
     }
 
     if (currentUser.letIn){
@@ -63,6 +74,16 @@ function GoerHomeScreen(props)  {
                     </View>
                     <View><Text style={styles.text}>YOU'RE IN!</Text></View>
                     <View style={styles.cardContainer}>
+                        { accepted ? <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+                            <TouchableOpacity style={{marginRight: 20}} onPress={() => closeEntry()}>
+                                <Icon
+                                    name='times'
+                                    type='font-awesome'
+                                    color='#9CA4BE'
+                                    size="35px"
+                                />
+                            </TouchableOpacity>
+                        </View> : <></>}
                         <View style={{flexDirection:'row', justifyContent:'center'}}>
                             <View style={styles.imageContainer}>
                                 <Image style={styles.image} source={{uri:props.lineInfo.imageURL}}></Image>
@@ -78,7 +99,7 @@ function GoerHomeScreen(props)  {
                         </View>
                         { accepted ? 
                             (<View style={{flexDirection:'row', justifyContent:'center'}}>
-                                <Text>Accepted!</Text>
+                                <Text style={styles.text}>Accepted!</Text>
                             </View>) : (
                             <View style={{flexDirection:'row', justifyContent:'center'}}>
                                 <TouchableOpacity style = {styles.buttonDeny}  onPress={() => onDeny()}> 
