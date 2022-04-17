@@ -288,6 +288,7 @@ const styles = StyleSheet.create({
         textAlignVertical: "center",
         fontSize: 45,
         fontWeight: 'bold',
+        textTransform: 'uppercase',
       },
       button: {
         width: 150,

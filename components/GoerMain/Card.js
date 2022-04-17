@@ -20,7 +20,6 @@ function Card(props) {
             .collection("userFollowing")
             .doc(props.venueID)
             .set({})
-        fetchLines()
     }
     const onUnfollow = () => {
         firebase.firestore()
@@ -207,6 +206,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     fontSize: 30,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   button: {
     position: "absolute",

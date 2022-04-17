@@ -9,10 +9,7 @@ export function fetchUser() {
         .doc(firebase.auth().currentUser.uid)
         .onSnapshot((snapshot,error) => {
             if(snapshot.exists){
-                console.log(snapshot.data())
                 dispatch({type: USER_STATE_CHANGE, currentUser: snapshot.data()})
-            } else {
-                console.log('does not exist')
             }
         })
     })
@@ -25,10 +22,7 @@ export function fetchVenue() {
         .doc(firebase.auth().currentUser.uid)
         .onSnapshot((snapshot,error) => {
             if(snapshot.exists){
-                console.log(snapshot.data())
                 dispatch({type: VENUE_STATE_CHANGE, currentVenue: snapshot.data()})
-            } else {
-                console.log('does not exist')
             }
         })
     })
@@ -102,7 +96,6 @@ export function fetchFavorites() {
 }
 
 export function fetchLines(){
-    let favorites = [];
     let lines = [];
     return ((dispatch) => {
         firebase.firestore().collection('venues')
@@ -127,31 +120,6 @@ export function fetchLines(){
                 }
             }
         })
-        firebase.firestore().collection('following')
-        .doc(firebase.auth().currentUser.uid)
-        .collection('userFollowing')
-        .onSnapshot((snapshot) => {
-                favorites = [];
-                // favoritesID = all venues user is following
-                favorites = snapshot.docs.map(doc => {
-                    // find index of line info
-                    const index = lines.findIndex(f => f.venueID == doc.id)
-                    if (index != -1){
-                        return lines[index]
-                    }
-                    return;
-                })
-                lines.forEach(line => {
-                    line.favorite = false;
-                })
-                favorites.forEach(favorite => {
-                    const index = lines.findIndex(f => f.venueID == favorite.venueID)
-                    if (index != -1){
-                        lines[index].favorite = true;
-                    }
-                })
-                dispatch({type: USER_LINE_STATE_CHANGE, lines: lines})
-        })
         firebase.firestore().collection('lines')
         .onSnapshot(snapshot => {
             snapshot.docs.forEach(doc=> {
@@ -167,11 +135,32 @@ export function fetchLines(){
                     if (index != -1){
                         lines[index].size = size;
                     }
+                    firebase.firestore().collection('following')
+                    .doc(firebase.auth().currentUser.uid)
+                    .collection('userFollowing')
+                    .onSnapshot((snapshot) => {
+                        const favoritesID = snapshot.docs.map(doc => {
+                            const id = doc.id;
+                            return id;
+                        })
+                        if (favoritesID.length == 0){
+                            lines.forEach(line => line.favorite = false);
+                        } else {
+                            lines.forEach(line => {
+                                if(favoritesID.some(e => e == line.venueID)){
+                                    index = lines.findIndex(f => f.venueID == doc.id)
+                                    if (index != -1){
+                                        lines[index].favorite = true;
+                                    }
+                                }
+                            })
+                        }
+                        dispatch({type: USER_LINE_STATE_CHANGE, lines})
+                    })
                 });
         })
-        })
-        dispatch({type: USER_LINE_STATE_CHANGE, lines})
     })
+})
 }
 
 export function fetchVenues(){
@@ -191,11 +180,16 @@ export function fetchVenues(){
 }
 
 export function fetchLineInfo() {
-    return ((dispatch) => {
+    return ((dispatch, getState) => {
         firebase.firestore().collection('lines')
         .get()
         .then(snapshot => {
             snapshot.docs.forEach(doc=> {
+                // const venueIndex= getState().userState.lines.findIndex(f => f.venueID == doc.id)
+                // const venue = getState().userState.lines[venueIndex]
+                // if(!venue){
+                //     return;
+                // }
                 doc.ref.collection('lineUsers')
                 .orderBy("time","asc")
                 .onSnapshot((snapshot) => {
@@ -213,6 +207,8 @@ export function fetchLineInfo() {
                         venueID: doc.id,
                         numberInLine: size,
                         spot: userInfo.spot,
+                        // venueName: venue.venueName,
+                        // imageURL: venue.imageURL
                     }
                     dispatch({type: USER_LINE_INFO_STATE_CHANGE, lineInfo: lineInfo})
                 })

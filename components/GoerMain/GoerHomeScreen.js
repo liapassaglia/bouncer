@@ -7,9 +7,9 @@ import { connect } from 'react-redux'
 
 function GoerHomeScreen(props)  {
     const {currentUser, lineInfo} = props;
-    const [venue, setVenue] = useState(props.lineInfo);
     const [accepted, setAccepted] = useState(false);
 
+    console.log(props.lineInfo)
     const denied = () => {
         firebase.firestore()
         .collection("users")
@@ -52,7 +52,7 @@ function GoerHomeScreen(props)  {
                     <View style={styles.cardContainer}>
                         <View style={{flexDirection:'row', justifyContent:'center'}}>
                             <View style={styles.imageContainer}>
-                                <Image style={styles.image} source={{uri:venue.imageURL}}></Image>
+                                <Image style={styles.image} source={{uri:props.lineInfo.imageURL}}></Image>
                             </View>
                         </View>
                         <View style={{flexDirection:'row', justifyContent:'center'}}>
@@ -60,7 +60,7 @@ function GoerHomeScreen(props)  {
                                 <Text style={styles.title}
                                 adjustsFontSizeToFit={true}
                                 numberOfLines={2}
-                                >{venue.venueName}</Text>
+                                >{props.lineInfo.venueName}</Text>
                             </View>
                         </View>
                         { accepted ? 
@@ -80,7 +80,7 @@ function GoerHomeScreen(props)  {
                 </View>
             </SafeAreaView>
         )
-    } else if(lineInfo.spot){
+    } else if(props.lineInfo.spot){
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={styles.container}>
@@ -91,9 +91,9 @@ function GoerHomeScreen(props)  {
                         />
                 </View>
                 <HomeCard 
-                    venueID={venue.venueID}
-                    venueName={venue.venueName}
-                    imageUrl={venue.imageURL}
+                    venueID={props.lineInfo.venueID}
+                    venueName={props.lineInfo.venueName}
+                    imageUrl={props.lineInfo.imageURL}
                 >
                 </HomeCard>
                 <View style={{flex: 1}}>

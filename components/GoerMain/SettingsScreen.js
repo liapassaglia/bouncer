@@ -126,6 +126,7 @@ const styles =  StyleSheet.create({
         color: 'white',
         fontSize: 24,
         marginTop: 10,
+        textTransform: 'uppercase',
     },
     email: {
         color: '#9CA4BE',

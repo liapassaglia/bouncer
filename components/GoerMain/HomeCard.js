@@ -9,7 +9,7 @@ const HomeCard = (props) => {
   const leave = () => {
     firebase.firestore()
     .collection("lines")
-    .doc(props.venueID)
+    .doc(props.lineInfo.venueID)
     .collection('lineUsers')
     .doc(firebase.auth().currentUser.uid)
     .delete()
@@ -18,8 +18,7 @@ const HomeCard = (props) => {
     .collection("users")
     .doc(firebase.auth().currentUser.uid)
     .update({
-      line: firebase.firestore.FieldValue.delete(),
-      letIn: firebase.firestore.FieldValue.delete()
+      line: firebase.firestore.FieldValue.delete()
     })
   }
 
@@ -42,7 +41,7 @@ const HomeCard = (props) => {
     <View style={styles.container}>
     <View>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{uri:props.imageUrl}}></Image>
+        <Image style={styles.image} source={{uri:props.lineInfo.imageURL}}></Image>
       </View>
       <View style={styles.infoContainer}>
       </View>
@@ -51,7 +50,7 @@ const HomeCard = (props) => {
       <Text style={styles.title}
       adjustsFontSizeToFit={true}
       numberOfLines={2}
-      >{props.venueName}</Text>
+      >{props.lineInfo.venueName}</Text>
     </View>
       <TouchableOpacity style = {styles.buttonInLine} onPress={() => leaveLine()}> 
         <Text style= {styles.buttonInLineText}>Leave Line</Text>
@@ -62,6 +61,7 @@ const HomeCard = (props) => {
 
 const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
+  lineInfo: store.userState.lineInfo,
 })
 
 // const mapDispatchProps = (dispatch) => bindActionCreators({Favorite,Unfavorite}, dispatch);
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     fontSize: 30,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   button: {
     position: "absolute",
