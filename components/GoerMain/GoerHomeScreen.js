@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, Text, View, Image, ImageBackground, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { SafeAreaView, Text, View, Image, ImageBackground, StyleSheet, TouchableOpacity, Alert, TurboModuleRegistry } from 'react-native'
 import HomeCard from './HomeCard'
 
 import {firebase} from '../../firebase';
@@ -20,6 +20,7 @@ function GoerHomeScreen(props)  {
         })
     }
 
+
     const onDeny = () => {
         Alert.alert(
             "Deny Entry Ticket",
@@ -36,8 +37,20 @@ function GoerHomeScreen(props)  {
     }
 
     const onAccept = () => {
-
+        Alert.alert(
+        "Accept Entry Ticket",
+        "You will have 15 minutes to arrive once accepted",
+        [
+            {
+                text: "Cancel",
+                onPress: () => console.log("Accept Pressed"),
+                style: "accept"
+            },
+            {text: "Accept", onPress: () => accepted.setAccepted = useState(true) }
+        ]
+        );
     }
+
     if (currentUser.letIn){
         return (
             <SafeAreaView style={{flex:1}}>
@@ -71,7 +84,7 @@ function GoerHomeScreen(props)  {
                                 <TouchableOpacity style = {styles.buttonDeny}  onPress={() => onDeny()}> 
                                     <Text style= {styles.buttonTextDeny}>Deny</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style = {styles.buttonAccept}> 
+                                <TouchableOpacity style = {styles.buttonAccept} onPress={() => onAccept()}> 
                                     <Text style= {styles.buttonTextAccept}>Accept</Text>
                                 </TouchableOpacity>
                             </View>)
