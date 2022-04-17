@@ -91,7 +91,7 @@ function SettingsScreen(props) {
         </View>
       </Modal>
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.button}> 
+                {/* <TouchableOpacity style = {styles.button}> 
                     <Icon name='lock'
                     type='font-awesome'
                     color='white'/>
@@ -102,7 +102,7 @@ function SettingsScreen(props) {
                     color='white'
                     />
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity style = {styles.button}
                 onPress={() => onLogOutPress()}>
                     <Icon name='logout'
