@@ -10,6 +10,7 @@ function ExploreScreen(props) {
         const [lines, setLines] = useState(props.lines)
         const [search, setSearch] = useState('');
         const [filteredData, setFilteredData] = useState(props.lines);
+
         useEffect(() => {
             if (lines != reduxState){
                 setLines(reduxState);
@@ -76,9 +77,7 @@ function ExploreScreen(props) {
                             )
                         }}
                         keyExtractor={item=>item.venueID}
-
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-              
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 />
             </View>
             </SafeAreaView>

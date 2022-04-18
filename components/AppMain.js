@@ -1,5 +1,5 @@
 import React, {Component, useEffect} from 'react'
-import {View, Text} from 'react-native'
+import { StyleSheet, SafeAreaView, ActivityIndicator, Text, View, LogBox, Image } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,6 +28,8 @@ export class AppMain extends Component {
         this.props.fetchLines();
     }
 
+
+    
     // useEffect(){
     //     this.props.reload();
     // }
@@ -94,7 +96,19 @@ export class AppMain extends Component {
         )
     }
     return (
-        <View><Text>Is Loading...</Text></View>
+        <SafeAreaView style={{flex:1}}>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Image
+                        style={styles.logo}
+                        source={require('../assets/bouncer-logo.png')}
+                    />
+            </View>
+            <View style={{flexDirection:'row', justifyContent:'space-around',padding:10}}>
+              <ActivityIndicator size="large" color="#fffff" />
+            </View>
+        </View>
+        </SafeAreaView>
     )
 }
 }
@@ -109,3 +123,18 @@ const mapStateToProps = (store) => ({
 })
 const mapDispatchToProps = (dispatch) => bindActionCreators({clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines},dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(AppMain)
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#000824'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    logo: {
+        width: 80,
+        height: 80,
+    },
+  });

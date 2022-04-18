@@ -17,7 +17,7 @@ function FavoritesScreen(props) {
                         />
                 </View>   
                 <Text style={styles.text}>FAVORITES</Text>      
-                <FlatList
+                {favorites.length != 0 ? <FlatList
                         data={favorites}
                         renderItem={({item})=>{
                             return (
@@ -32,7 +32,7 @@ function FavoritesScreen(props) {
                             )}
                         }
                         keyExtractor={item=>item.venueID}
-                />
+                /> : <Text style={styles.textNoFavs}>You currently have no favorite venues.</Text>}
             </View>
             </SafeAreaView>
     )
@@ -57,14 +57,20 @@ const styles = StyleSheet.create({
         height: 80,
     },
     text: {
-        color: '#ffffff',
-        textAlign: 'left',
+        color: 'white',
+        textAlign: 'center',
         fontSize: 30,
         fontWeight: '600',
-        marginBottom: 15,
-        marginLeft: 15
+        marginTop: 15,
     },
-
+    textNoFavs: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: '600',
+        marginTop: 30,
+        opacity: 0.25,
+    },
     edit:{
         color: "#9ca4be",
         fontSize: 20,

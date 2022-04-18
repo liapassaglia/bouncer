@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginTop: 35,
         marginBottom: 20,
-        marginLeft: 20, 
+        marginLeft: 50, 
     },
     spot: {
         color: '#ffffff',

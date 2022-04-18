@@ -14,9 +14,13 @@ function VenueSettingsScreen(props) {
     const {currentVenue} = props;
     const [modalVisible, setModalVisible] = useState(false);
     const venueName = VenueRegister.venueName;
-    const [newName, setNewName] = useState(venueName);
+    const [newName, setNewName] = useState(currentVenue.venueName);
 
     const editName = () => {
+        console.log(newName)
+        if (newName == currentVenue.venueName || newName == ''){
+            return;
+        }
         firebase.firestore()
         .collection("venues")
         .doc(currentVenue.venueID)
@@ -62,31 +66,40 @@ function VenueSettingsScreen(props) {
                 />
             </View>
             <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-            }}
-        >
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                setModalVisible(!modalVisible);
+                }}
+            >
             <View style={styles.centeredView}>
             <View style={styles.modalView}>
-            <TextInput
+                <Text style={{fontSize: 24}}>EDIT NAME:</Text>
+                <TextInput
                         style={styles.input}
-                        placeholder='Venue Name'
+                        placeholder={currentVenue.venueName}
                         placeholderTextColor="#aaaaaa"
                         onChangeText={(newName) => setNewName(newName)}
                         value={newName}
                         underlineColorAndroid="transparent"
                         autoCapitalize="none"
-                    />
-                <TouchableOpacity
-                style={[styles.modalButton, styles.modalButtonClose]}
-                onPress={() => editName()}
-                >
-                <Text style={styles.textStyle}>Done</Text>
-                </TouchableOpacity>
+                />
+                <View style={{flexDirection:'row'}}>
+                    <TouchableOpacity
+                    style={[styles.modalButton, styles.buttonDeny]}
+                    onPress={() => setModalVisible(!modalVisible)}
+                    >
+                    <Text style={styles.buttonTextDeny}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    style={[styles.modalButton, styles.buttonAccept]}
+                    onPress={() => editName()}
+                    >
+                    <Text style={styles.buttonTextAccept}>Submit</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             </View>
         </Modal>
@@ -219,7 +232,9 @@ const styles =  StyleSheet.create({
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 130,
+        paddingTop: 50,
+        paddingBottom: 50,
+        paddingHorizontal: 25,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -230,6 +245,21 @@ const styles =  StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
       },
+      input: {
+        height: 45,
+        width: 200,
+        borderRadius: 5,
+        overflow: 'hidden',
+        borderColor: '#000824',
+        borderBottomWidth: 3,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        paddingLeft: 16, 
+        color: '#000824',
+        fontSize: 20
+    },
       modalButton: {
         borderRadius: 20,
         padding: 10,
@@ -250,5 +280,34 @@ const styles =  StyleSheet.create({
       modalText: {
         marginBottom: 15,
         textAlign: "center"
-      }
+      },
+
+      buttonDeny: {
+        width: 150,
+        borderWidth: 3,
+        borderColor: '#FF5151',
+        borderRadius: 5,
+        padding: 7,
+        margin: 5,
+      },
+      buttonTextDeny: {
+        color: '#FF5151',
+        fontSize: 18,
+        fontWeight: "500",
+        textAlign: "center"
+      },
+      buttonAccept: {
+        width: 150,
+        borderWidth: 3,
+        borderColor: '#78C954',
+        borderRadius: 5,
+        padding: 7,
+        margin: 5,
+      },
+      buttonTextAccept: {
+        color: '#78C954',
+        fontSize: 18,
+        fontWeight: "500",
+        textAlign: "center"
+      },
 })

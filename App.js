@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, ActivityIndicator, Text, View, LogBox, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,7 +27,9 @@ export class App extends Component {
       loaded: false,
     }
   }
-  componentDidMount() {
+
+  componentDidMount() { 
+    LogBox.ignoreAllLogs()
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if(!user) {
@@ -47,7 +49,19 @@ export class App extends Component {
     const {loaded, loggedIn} = this.state;
     if (!loaded) {
       return (
-        <View><Text>Loading...</Text></View>
+        <SafeAreaView style={{flex:1}}>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Image
+                                style={styles.logo}
+                                source={require('./assets/bouncer-logo.png')}
+                            />
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-around',padding:10}}>
+                      <ActivityIndicator size="large" color="#fffff" />
+                    </View>
+                </View>
+          </SafeAreaView>
       )
     } 
     if (!loggedIn) {
@@ -81,8 +95,14 @@ export default App
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#000824'
+  },
+  header: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+  },
+  logo: {
+      width: 80,
+      height: 80,
   },
 });
