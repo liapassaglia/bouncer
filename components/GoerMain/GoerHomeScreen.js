@@ -9,7 +9,7 @@ function GoerHomeScreen(props)  {
     const {currentUser, lineInfo} = props;
     const [accepted, setAccepted] = useState(false);
 
-    console.log(props.lineInfo)
+    console.log(lineInfo)
     const denied = () => {
         firebase.firestore()
         .collection("users")
@@ -19,7 +19,6 @@ function GoerHomeScreen(props)  {
             letIn: firebase.firestore.FieldValue.delete()
         })
     }
-
 
     const onDeny = () => {
         Alert.alert(
@@ -54,7 +53,7 @@ function GoerHomeScreen(props)  {
     const closeEntry = () => {
         firebase.firestore()
         .collection('users')
-        .doc(currentUser.uid)
+        .doc(firebase.auth().currentUser.uid)
         .update({
             line: firebase.firestore.FieldValue.delete(),
             letIn: firebase.firestore.FieldValue.delete()
@@ -94,7 +93,7 @@ function GoerHomeScreen(props)  {
                                 <Text style={styles.title}
                                 adjustsFontSizeToFit={true}
                                 numberOfLines={2}
-                                >{props.lineInfo.venueName}</Text>
+                                >{props.lineInfo.venueName.toUpperCase()}</Text>
                             </View>
                         </View>
                         { accepted ? 
@@ -114,7 +113,7 @@ function GoerHomeScreen(props)  {
                 </View>
             </SafeAreaView>
         )
-    } else if(props.lineInfo.spot){
+    } else if(lineInfo.spot){
         return (
             <SafeAreaView style={{flex:1}}>
             <View style={styles.container}>

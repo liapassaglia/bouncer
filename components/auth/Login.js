@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SafeAreaView, Image, ImageBackground, Text, TextInput, TouchableOpacity, View, StyleSheet} from 'react-native';
+import { Alert, SafeAreaView, Image, ImageBackground, Text, TextInput, TouchableOpacity, View, StyleSheet} from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {KeyboardAvoidingView} from 'react-native';
 
@@ -23,6 +23,13 @@ export default function LoginScreen({navigation}) {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            Alert.alert(
+                "Invalid Sign In",
+                "Enter a valid email and password",
+                [
+                  { text: "OK" }
+                ]
+              );
         })
     }
 

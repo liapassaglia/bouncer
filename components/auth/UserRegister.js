@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Alert, Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { firebase } from '../../firebase';
 import {KeyboardAvoidingView} from 'react-native';
@@ -19,6 +19,16 @@ export class UserRegister extends Component {
 
     onSignUp = async() => {
         const {fullName, email, password, confirmPassword} = this.state;
+        if (password != confirmPassword){
+            Alert.alert(
+                "Invalid Password",
+                "Passwords must match",
+                [
+                  { text: "OK" }
+                ]
+            );
+            return;
+        }
         const auth = getAuth();
         createUserWithEmailAndPassword(auth,email,password)
         .then((userCredential)=>{

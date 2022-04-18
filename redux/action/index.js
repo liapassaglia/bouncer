@@ -179,16 +179,26 @@ export function fetchVenues(){
 }
 
 export function fetchLineInfo() {
+    let venues = [];
     return ((dispatch, getState) => {
+        firebase.firestore().collection('venues')
+        .get()
+        .then(collectionSnapshot => {
+            collectionSnapshot
+                .forEach(documentSnapshot => {
+                    var venue = documentSnapshot.data();
+                    venues.push(venue);
+                });
+        });
         firebase.firestore().collection('lines')
         .get()
         .then(snapshot => {
             snapshot.docs.forEach(doc=> {
-                const venueIndex= getState().userState.lines.findIndex(f => f.venueID == doc.id)
+                const venueIndex= venues.findIndex(f => f.venueID == doc.id)
                 if(venueIndex == -1){
                     return;
                 }
-                const venue = getState().userState.lines[venueIndex]
+                const venue = venues[venueIndex]
                 doc.ref.collection('lineUsers')
                 .orderBy("time","asc")
                 .onSnapshot((snapshot) => {

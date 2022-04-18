@@ -19,6 +19,16 @@ export class VenueRegister extends Component {
 
     onSignUp = async() => {
         const {venueName, email, password, confirmPassword, imageURL} = this.state;
+        if (password != confirmPassword){
+            Alert.alert(
+                "Invalid Password",
+                "Passwords must match",
+                [
+                  { text: "OK" }
+                ]
+            );
+            return;
+        }
         const auth = getAuth();
         createUserWithEmailAndPassword(auth,email,password)
         .then((userCredential)=>{
