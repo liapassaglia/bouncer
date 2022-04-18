@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import { FlatList, Image, TextInput, View, SafeAreaView, StyleSheet } from 'react-native'
+import { RefreshControl, FlatList, Image, TextInput, View, SafeAreaView, StyleSheet } from 'react-native'
 import Card from './Card'
 import { connect, useSelector} from 'react-redux'
+import { firebase } from '../../firebase';
+
 
 function ExploreScreen(props) { 
         const reduxState = useSelector(state => state.userState.lines)
@@ -28,6 +30,19 @@ function ExploreScreen(props) {
                 setFilteredData(lines);
             }
         };
+
+        const [refreshing, setIsFetching] = React.useState(false);
+
+        const fetchData = () => {
+            //props.dispatch(getAllTopicAction(userParamData));
+            setIsFetching(false);
+          };
+          
+          const onRefresh = () => {
+            setIsFetching(true);
+            fetchData();
+          };
+          
 
         return (
             <SafeAreaView style={{flex:1}}>
@@ -61,6 +76,9 @@ function ExploreScreen(props) {
                             )
                         }}
                         keyExtractor={item=>item.venueID}
+
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+              
                 />
             </View>
             </SafeAreaView>

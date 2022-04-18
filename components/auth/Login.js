@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { SafeAreaView, Image, ImageBackground, Text, TextInput, TouchableOpacity, View, StyleSheet} from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {KeyboardAvoidingView} from 'react-native';
+
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
@@ -49,6 +51,7 @@ export default function LoginScreen({navigation}) {
                     autoCapitalize="none"
                     secureTextEntry='false'
                 />
+
                 <TextInput
                     style={styles.input}
                     placeholderTextColor="#aaaaaa"
@@ -59,6 +62,8 @@ export default function LoginScreen({navigation}) {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+
+
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onLoginPress()}>
