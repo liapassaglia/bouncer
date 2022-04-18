@@ -90,6 +90,7 @@ export function fetchFavorites() {
                     return;
                 })
                 dispatch({type: USER_FAVORITES_STATE_CHANGE, favorites})
+                dispatch(fetchLines());
             })
         })
     })
@@ -97,6 +98,7 @@ export function fetchFavorites() {
 
 export function fetchLines(){
     let lines = [];
+    let favorites = [];
     return ((dispatch) => {
         firebase.firestore().collection('venues')
         .onSnapshot(collectionSnapshot => {
@@ -120,6 +122,23 @@ export function fetchLines(){
                 }
             }
         })
+        firebase.firestore().collection('following')
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then(docSnap => {
+            docSnap.ref.collection('userFollowing')
+            .onSnapshot((snapshot) => {
+                // favoritesID = all venues user is following
+                snapshot.docs.map(doc => {
+                    // find index of line info
+                    const index = lines.findIndex(f => f.venueID == doc.ref.id)
+                    if (index != -1){
+                        lines[index].favorite = true;
+                    }
+                    return;
+                })
+            })
+        })
         firebase.firestore().collection('lines')
         .onSnapshot(snapshot => {
             snapshot.docs.forEach(doc=> {
@@ -135,28 +154,8 @@ export function fetchLines(){
                     if (index != -1){
                         lines[index].size = size;
                     }
-                    firebase.firestore().collection('following')
-                    .doc(firebase.auth().currentUser.uid)
-                    .collection('userFollowing')
-                    .onSnapshot((snapshot) => {
-                        const favoritesID = snapshot.docs.map(doc => {
-                            const id = doc.id;
-                            return id;
-                        })
-                        if (favoritesID.length == 0){
-                            lines.forEach(line => line.favorite = false);
-                        } else {
-                            lines.forEach(line => {
-                                if(favoritesID.some(e => e == line.venueID)){
-                                    index = lines.findIndex(f => f.venueID == doc.id)
-                                    if (index != -1){
-                                        lines[index].favorite = true;
-                                    }
-                                }
-                            })
-                        }
-                        dispatch({type: USER_LINE_STATE_CHANGE, lines})
-                    })
+                    console.log('testing')
+                    dispatch({type: USER_LINE_STATE_CHANGE, lines})
                 });
         })
     })
@@ -185,11 +184,11 @@ export function fetchLineInfo() {
         .get()
         .then(snapshot => {
             snapshot.docs.forEach(doc=> {
-                // const venueIndex= getState().userState.lines.findIndex(f => f.venueID == doc.id)
-                // const venue = getState().userState.lines[venueIndex]
-                // if(!venue){
-                //     return;
-                // }
+                const venueIndex= getState().userState.lines.findIndex(f => f.venueID == doc.id)
+                if(venueIndex == -1){
+                    return;
+                }
+                const venue = getState().userState.lines[venueIndex]
                 doc.ref.collection('lineUsers')
                 .orderBy("time","asc")
                 .onSnapshot((snapshot) => {
@@ -207,8 +206,8 @@ export function fetchLineInfo() {
                         venueID: doc.id,
                         numberInLine: size,
                         spot: userInfo.spot,
-                        // venueName: venue.venueName,
-                        // imageURL: venue.imageURL
+                        venueName: venue.venueName,
+                        imageURL: venue.imageURL
                     }
                     dispatch({type: USER_LINE_INFO_STATE_CHANGE, lineInfo: lineInfo})
                 })

@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines } from '../redux/action/index'
+import {clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines } from '../redux/action/index'
 
 import GoerHomeScreen from './GoerMain/GoerHomeScreen'
 import ExploreScreen from './GoerMain/ExploreScreen'

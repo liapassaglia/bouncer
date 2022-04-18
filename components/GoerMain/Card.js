@@ -21,8 +21,9 @@ function Card(props) {
             .doc(props.venueID)
             .set({})
     }
+    
     const onUnfollow = () => {
-        firebase.firestore()
+      firebase.firestore()
             .collection("following")
             .doc(firebase.auth().currentUser.uid)
             .collection("userFollowing")
@@ -149,7 +150,7 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({fetchLines},dispatch)
 
-export default connect(mapStateToProps,mapDispatchToProps )(Card);
+export default connect(mapStateToProps,mapDispatchToProps)(Card);
 
 const styles = StyleSheet.create({
   container: {

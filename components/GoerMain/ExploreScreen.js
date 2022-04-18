@@ -10,20 +10,20 @@ function ExploreScreen(props) {
         const [lines, setLines] = useState(props.lines)
         const [search, setSearch] = useState('');
         const [filteredData, setFilteredData] = useState(props.lines);
-
         useEffect(() => {
             if (lines != reduxState){
-                setLines(reduxState)
-                console.log(lines)
+                setLines(reduxState);
             }
-        },reduxState)
+            console.log(reduxState)
+        })
 
         const handleSearch = (text) => {
             const formattedSearch = text.toUpperCase();
             if (formattedSearch) {
-                const newFilteredData = filteredData.filter((venue) => venue.venueName.includes(formattedSearch));
+                const newFilteredData = filteredData.filter((venue) => venue.venueName.toUpperCase().includes(formattedSearch));
                 setFilteredData(newFilteredData);
                 setSearch(text);
+                console.log(filteredData)
             }
             else {
                 setSearch('');
@@ -61,7 +61,7 @@ function ExploreScreen(props) {
                     placeholder="Search venue lines"
                 />
                 <FlatList
-                        data={reduxState}
+                        data={filteredData}
                         extraData={reduxState}
                         renderItem={({item})=>{
                             return(
