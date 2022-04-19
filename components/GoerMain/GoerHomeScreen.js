@@ -4,6 +4,7 @@ import HomeCard from './HomeCard'
 import { Icon } from 'react-native-elements'
 import {firebase} from '../../firebase';
 import { connect } from 'react-redux'
+import {CountdownCircleTimer} from 'react-native-countdown-circle-timer'
 
 function GoerHomeScreen(props)  {
     const {currentUser, lineInfo} = props;
@@ -61,6 +62,21 @@ function GoerHomeScreen(props)  {
         setAccepted(false)
     }
 
+    const timer = ({ remainingTime }) => {
+        const minutes = Math.floor(remainingTime / 60)
+        let seconds = remainingTime % 60
+        if (seconds < 10){
+            seconds = '0' + seconds;
+        }
+
+        return (
+            <View>
+            <Text style = {styles.timerWords}>Entry expires in:</Text>
+            <Text style = {styles.timerNumber}>{minutes}:{seconds}</Text>
+            </View>
+        )
+    }
+
     if (currentUser.letIn){
         return (
             <SafeAreaView style={{flex:1}}>
@@ -109,6 +125,27 @@ function GoerHomeScreen(props)  {
                                 </TouchableOpacity>
                             </View>)
                             }
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'center'}}>
+                    { accepted ? <CountdownCircleTimer
+                                    isPlaying
+                                    duration={8}
+                                    colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                                    colorsTime={[8, 6, 4, 0]}
+                                    onComplete={() => {
+                                        Alert.alert(
+                                            "Entry Ticket Expired",
+                                            "You're allotted 15 minutes has epxired. Please rejoin a line",
+                                            [
+                                              { text: "OK", onPress: () => closeEntry() }
+                                            ]
+                                        );
+                                        return
+                                      }}
+                                >
+                                {({ remainingTime }) => timer({remainingTime})}
+                                </CountdownCircleTimer> :
+                    <></>}
                     </View>
                 </View>
             </SafeAreaView>
@@ -308,4 +345,14 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         textAlign: "center"
       },
+    timerNumber: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 30,
+        fontWeight: '600',
+        marginTop: 15,
+    },
+    timerWords: {
+        color: '#808080'
+    }
 })

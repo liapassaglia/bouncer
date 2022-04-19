@@ -3,6 +3,8 @@ import { RefreshControl, FlatList, Image, TextInput, View, SafeAreaView, StyleSh
 import Card from './Card'
 import { connect, useSelector} from 'react-redux'
 import { firebase } from '../../firebase';
+import { bindActionCreators } from 'redux'
+import {clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines } from '../../redux/action/index'
 
 
 function ExploreScreen(props) { 
@@ -15,7 +17,6 @@ function ExploreScreen(props) {
             if (lines != reduxState){
                 setLines(reduxState);
             }
-            console.log(reduxState)
         })
 
         const handleSearch = (text) => {
@@ -24,7 +25,6 @@ function ExploreScreen(props) {
                 const newFilteredData = filteredData.filter((venue) => venue.venueName.toUpperCase().includes(formattedSearch));
                 setFilteredData(newFilteredData);
                 setSearch(text);
-                console.log(filteredData)
             }
             else {
                 setSearch('');
@@ -35,7 +35,7 @@ function ExploreScreen(props) {
         const [refreshing, setIsFetching] = React.useState(false);
 
         const fetchData = () => {
-            //props.dispatch(getAllTopicAction(userParamData));
+            props.fetchLines();
             setIsFetching(false);
           };
           
@@ -90,7 +90,10 @@ const mapStateToProps = (store) => ({
     favorites: store.userState.favorites,
 })
 
-export default connect(mapStateToProps,null)(ExploreScreen);
+const mapDispatchToProps = (dispatch) => bindActionCreators({clearData, fetchUser, fetchVenue, fetchFavorites, fetchVenues, fetchLineInfo, fetchLines},dispatch)
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExploreScreen);
 
 const styles = StyleSheet.create({
     container: {

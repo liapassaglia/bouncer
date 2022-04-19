@@ -182,8 +182,7 @@ export function fetchLineInfo() {
     let venues = [];
     return ((dispatch, getState) => {
         firebase.firestore().collection('venues')
-        .get()
-        .then(collectionSnapshot => {
+        .onSnapshot(collectionSnapshot => {
             collectionSnapshot
                 .forEach(documentSnapshot => {
                     var venue = documentSnapshot.data();
@@ -191,8 +190,7 @@ export function fetchLineInfo() {
                 });
         });
         firebase.firestore().collection('lines')
-        .get()
-        .then(snapshot => {
+        .onSnapshot(snapshot => {
             snapshot.docs.forEach(doc=> {
                 const venueIndex= venues.findIndex(f => f.venueID == doc.id)
                 if(venueIndex == -1){
